@@ -1,3 +1,5 @@
+import { BaseInterface } from "../adapter-implementation/base-interface"
+
 class MongoAdapter extends BaseInterface {
   constructor() {
     super()

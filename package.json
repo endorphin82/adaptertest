@@ -1,0 +1,30 @@
+{
+  "name": "adaptertest",
+  "version": "1.0.0",
+  "description": "test pattern adapter",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.3"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
+  },
+  "scripts": {
+    "start": "nodemon server/index.js",
+    "dev:local": "nodemon -r dotenv/config server/index.js dotenv_config_path=dev.local.env",
+    "dev:global": "nodemon -r dotenv/config server/index.js dotenv_config_path=dev.global.env",
+    "server": "node server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/endorphin82/adaptertest.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/endorphin82/adaptertest/issues"
+  },
+  "homepage": "https://github.com/endorphin82/adaptertest#readme"
+}

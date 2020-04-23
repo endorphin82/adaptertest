@@ -6,4 +6,5 @@ const logData = (req, res, next) => {
     }
     next()
 }
+
 module.exports = {logData}

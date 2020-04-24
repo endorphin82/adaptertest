@@ -1,4 +1,4 @@
-import { BaseInterface } from "../adapter-implementation/base-interface"
+import { BaseInterface } from "./adapter-implementation/base-interface"
 
 class SqlAdapter extends BaseInterface {
   constructor() {

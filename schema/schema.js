@@ -14,23 +14,30 @@ const UserType = new GraphQLObjectType({
 
 const Query = new GraphQLObjectType({
   name: "Query",
+  // У тебя уже работающий код на GraphQL. Так что просто измени код на сервере.
+  // В самом GraphQL обработчике вызывай методы, привязанные именно к БД, которую ты выбрал изначально. И всё.
+  // тогда это так или одной строкой из адаптера
+  // adapter.findByName(name) // Так универсальнее + мидлвары тоже описывать в адаптере?
+  // Насчёт этого не подскажу. пробовал уже, работает. Тогда сделай так. Если будешь добавлять новую БД и столкнёшься с
+  // трудностями - ты уже будешь знать второй вариант. Спасибо Коль. вроде в голове прояснилось. Ок.
+  // Тогда на связи.
   fields: {
-    // У тебя уже работающий код на GraphQL. Так что просто измени код на сервере.
-    // В самом GraphQL обработчике вызывай методы, привязанные именно к БД, которую ты выбрал изначально. И всё.
-    // тогда это так или одной строкой из адаптера
-    adapter.findByName(name) // Так универсальнее + мидлвары тоже описывать в адаптере?
-    // Насчёт этого не подскажу. пробовал уже, работает. Тогда сделай так. Если будешь добавлять новую БД и столкнёшься с 
-    // трудностями - ты уже будешь знать второй вариант. Спасибо Коль. вроде в голове прояснилось. Ок.
-    // Тогда на связи.
-    
-    // findByName: {
-    //   type: new GraphQLList(UserType),
-    //   args: { firstName: { type: GraphQLString } },
-    //   resolve(parent, { firstName }) {
-    //     console.info("findByName:", name)
-    //     return Users.find({ firstName: { $regex: firstName, $options: "i" } })
-    //   }
-    // }
+    findByName: {
+      type: new GraphQLList(UserType),
+      args: { firstName: { type: GraphQLString } },
+      resolve(parent, { firstName }) {
+        console.info("findByName:", firstName)
+        // return Users.find({})
+        return Users.find({ firstName: { $regex: firstName, $options: "i" } })
+      }
+    },
+    usersAll: {
+      type: new GraphQLList(UserType),
+      resolve: () => {
+        console.info("usersAll")
+        return Users.find({})
+      },
+    },
   }
 })
 const Mutation = new GraphQLObjectType({
@@ -39,10 +46,10 @@ const Mutation = new GraphQLObjectType({
     createUser: {
       type: UserType,
       args: {
-        firstName: { type: GraphQLString },
-        lastName: { type: GraphQLString }
+        firstName: { type: new GraphQLNonNull(GraphQLString) },
+        lastName: { type:  GraphQLString }
       },
-      resolve(parent, { firstName, lastName }) {
+      resolve(parent, { lastName, firstName }) {
         console.info("createUser:", firstName, firstName)
         const user = new Users({
           firstName,

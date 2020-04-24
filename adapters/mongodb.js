@@ -12,6 +12,7 @@ const {
   GraphQLList,
 } = graphql
 const Users = require("../models/user")
+
 const UserType = new GraphQLObjectType({
   name: "User",
   fields: () => ({
@@ -19,7 +20,7 @@ const UserType = new GraphQLObjectType({
     firstName: { type: GraphQLString },
     lastName: { type: GraphQLString }
   })
-
+})
 const OPTIONS = {
   MONGO_URL: process.env.MONGO_URL || "mongodb://localhost:27017/testdb",
 }
@@ -32,18 +33,18 @@ class MongoAdapter extends BaseInterface {
     console.log("Mongo Adapter created")
   }
 
-  specificFindByNameForMongo(name) {
-    console.log("SpecificFindByNameForMongo", name)
-    return {
-      findByName: {
-        type: new GraphQLList(UserType),
-        args: { firstName: { type: GraphQLString } },
-        resolve(parent, { firstName }) {
-          console.info("findByName:", name)
-          return Users.find({ firstName: { $regex: firstName, $options: "i" } })
-        },
-      },
-    }
+  specificFindByNameForMongo(firsName) {
+    console.log("SpecificFindByNameForMongo", firsName)
+    // return {
+    //   findByName: {
+    //     type: new GraphQLList(UserType),
+    //     args: { firstName: { type: GraphQLString } },
+    //     resolve(parent, { firstName }) {
+    //       console.info("findByName:", name)
+    //       return Users.find({ firstName: { $regex: firstName, $options: "i" } })
+    //     },
+    //   },
+    // }
   }
 
   specificConnectForMongo(OPTIONS) {
@@ -51,7 +52,17 @@ class MongoAdapter extends BaseInterface {
     mongoose.connect(OPTIONS.MONGO_URL, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
+
     })
+    const dbConnection = mongoose.connection
+    dbConnection.on("error", (err) => {
+      console.log(`Connection error: ${err}`)
+    })
+
+    dbConnection.once("open", () => {
+      console.log("Connected to DB")
+    })
+
   }
   specificMiddlewareForMongo() {}
   specificCreateUserForMongo(firsName, lastName) {

@@ -1,6 +1,6 @@
 
 class BaseInterface {
-  findByName(name) {
+  findByName(firsName) {
 // валидация
   }
   createUser(firsName, lastName) {

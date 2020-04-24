@@ -1,3 +1,4 @@
+
 class BaseInterface {
   findByName(name) {
 // валидация
@@ -6,6 +7,8 @@ class BaseInterface {
 // валидация
   }
   connect(OPTIONS) {
+  }
+  middleware(){
   }
 }
 

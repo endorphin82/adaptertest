@@ -2,8 +2,6 @@ const OPTIONS = {
   MONGO_URL : process.env.MONGO_URL || "mongodb://localhost:27017/testdb"
 }
 
-
-
 class MongoAdapter extends BaseInterface {
   constructor() {
     super()
@@ -15,7 +13,7 @@ class MongoAdapter extends BaseInterface {
   }
 
   specificConnectForMongo(OPTIONS) {
-    console.log("SpecificFindByNameForMongo", OPTIONS.MONGO_URL)
+    // console.log("SpecificFindByNameForMongo", OPTIONS.MONGO_URL)
     mongoose.connect(OPTIONS.MONGO_URL, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
@@ -33,8 +31,8 @@ class MongoAdapter extends BaseInterface {
   createUser(firsName, lastName) {
     return this.specificCreateUserForMongo(firsName, lastName)
   }
-  connect(firsName, lastName) {
-    return this.specificConnectForMongo(firsName, lastName)
+  connect(OPTIONS) {
+    return this.specificConnectForMongo(OPTIONS)
   }
 }
 

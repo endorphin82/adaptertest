@@ -1,3 +1,5 @@
-const ADAPTER = process.env.ADAPTER
+const ADAPTER = process.env.ADAPTER || "mongodb"
 
-module.exports = (ADAPTER) => require(`./${ADAPTER}`)
+const { adapter } = require(`./${ADAPTER}`)
+
+module.exports = { adapter }

@@ -1,8 +1,7 @@
 const graphqlHTTP = require("express-graphql")
 const schema = require("../schema/schema")
-const mongoose = require("mongoose")
 
-// const { adapter } = require("../adapters")
+const { adapter } = require("../adapters")
 
 const express = require("express")
 const cors = require("cors")
@@ -17,23 +16,11 @@ const OPTIONS = {
 }
 
 app.use([cors(), logData])
-// adapter.connect(OPTIONS)
-mongoose.connect(OPTIONS.MONGO_URL, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-
-})
-const dbConnection = mongoose.connection
-dbConnection.on("error", (err) => {
-  console.log(`Connection error: ${err}`)
-})
-
-dbConnection.once("open", () => {
-  console.log("Connected to DB")
-})
+adapter.connect(OPTIONS)
+// app.use("/graphql", adapter.middleware())
 app.use("/graphql", graphqlHTTP({
   schema,
-  graphiql: true,
+  graphiql: true
 }))
 
 console.log("env:", process.env.ADAPTER)

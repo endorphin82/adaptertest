@@ -1,9 +1,10 @@
 const graphql = require("graphql")
 const { GraphQLString, GraphQLID, GraphQLSchema, GraphQLObjectType, GraphQLNonNull, GraphQLList } = graphql
 const Users = require("../models/user")
+const { adapter } = require("../adapters")
 
 const UserType = new GraphQLObjectType({
-  name: "Product",
+  name: "User",
   fields: () => ({
     id: { type: GraphQLID },
     firstName: { type: GraphQLString },
@@ -14,14 +15,22 @@ const UserType = new GraphQLObjectType({
 const Query = new GraphQLObjectType({
   name: "Query",
   fields: {
-    findByName: {
-      type: new GraphQLList(UserType),
-      args: { firstName: { type: GraphQLString } },
-      resolve(parent, { firstName }) {
-        console.info("findByName:", name)
-        return Users.find({ firstName: { $regex: firstName, $options: "i" } })
-      }
-    }
+    // У тебя уже работающий код на GraphQL. Так что просто измени код на сервере.
+    // В самом GraphQL обработчике вызывай методы, привязанные именно к БД, которую ты выбрал изначально. И всё.
+    // тогда это так или одной строкой из адаптера
+    adapter.findByName(name) // Так универсальнее + мидлвары тоже описывать в адаптере?
+    // Насчёт этого не подскажу. пробовал уже, работает. Тогда сделай так. Если будешь добавлять новую БД и столкнёшься с 
+    // трудностями - ты уже будешь знать второй вариант. Спасибо Коль. вроде в голове прояснилось. Ок.
+    // Тогда на связи.
+    
+    // findByName: {
+    //   type: new GraphQLList(UserType),
+    //   args: { firstName: { type: GraphQLString } },
+    //   resolve(parent, { firstName }) {
+    //     console.info("findByName:", name)
+    //     return Users.find({ firstName: { $regex: firstName, $options: "i" } })
+    //   }
+    // }
   }
 })
 const Mutation = new GraphQLObjectType({

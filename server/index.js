@@ -19,7 +19,7 @@ const OPTIONS = {
 app.use([cors(), logData])
 adapter.connect(OPTIONS)
 app.use("/graphql", graphqlHTTP({
-  schema,
+  schema, // тут в мидлвару приходит схема, идем глянум схему
   graphiql: true,
 }))
 

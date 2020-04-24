@@ -1,18 +1,11 @@
 const { BaseInterface } = require("./adapter-implementation/base-interface")
 const mongoose = require("mongoose")
-const graphqlHTTP = require("express-graphql")
-const schema = require("../schema/schema")
 const graphql = require("graphql")
 const {
-  GraphQLString,
-  GraphQLID,
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLNonNull,
-  GraphQLList
+  GraphQLString, GraphQLID,
+  GraphQLObjectType, GraphQLNonNull, GraphQLList
 } = graphql
 const Users = require("../models/user")
-console.log("module mongodb")
 
 const UserType = new GraphQLObjectType({
   name: "User",
@@ -29,8 +22,8 @@ class MongoAdapter extends BaseInterface {
     console.log("Mongo Adapter created")
   }
 
-  findByName(firsName) {
-    console.log("SpecificFindByNameForMongo", firsName)
+  findByName(firstName) {
+    console.log("SpecificFindByNameForMongo", firstName)
     return {
       type: new GraphQLList(UserType),
       args: { firstName: { type: GraphQLString } },
@@ -47,13 +40,12 @@ class MongoAdapter extends BaseInterface {
       resolve: () => {
         console.info("usersAll")
         return Users.find({})
-        // return adapter.findAll()
       }
     }
   }
 
-  createUser(firsName, lastName) {
-    console.log("SpecificCreateUserForMongo", firsName, lastName)
+  createUser(firstName, lastName) {
+    console.log("SpecificCreateUserForMongo", firstName, lastName)
     return {
       type: UserType,
       args: {
@@ -70,7 +62,6 @@ class MongoAdapter extends BaseInterface {
       }
     }
   }
-
   connect(OPTIONS) {
     console.log("SpecificFindByNameForMongo", OPTIONS.MONGO_URL)
     mongoose.connect(OPTIONS.MONGO_URL, {

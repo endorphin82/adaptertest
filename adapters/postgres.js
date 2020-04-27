@@ -1,22 +1,22 @@
-import { MongoBase } from "./mongodb"
+import { BaseInterface } from "./adapter-implementation/base-interface"
 
-class SqlAdapter extends MongoBase {
+class SqlAdapter extends BaseInterface {
   constructor() {
     super()
     console.log("Sql Adapter created")
   }
-  _findByName(name){
+  specificFindByNameForSql(name){
 
   }
-  _createUser(firsName, lastName){
+  _specificCreateUserForSql(firsName, lastName){
 
   }
   findByName(name) {
-    return this._findByName(name)
+    return this.specificFindByNameForSql(name)
   }
 
   createUser(firsName, lastName) {
-    return this._createUser(firsName, lastName)
+    return this._specificCreateUserForSql(firsName, lastName)
   }
 }
 const adapter = exports.adapter = new SqlAdapter()

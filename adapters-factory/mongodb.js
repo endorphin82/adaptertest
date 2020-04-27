@@ -1,3 +1,4 @@
+const { BaseInterface } = require("./adapter-implementation/base-interface")
 const mongoose = require("mongoose")
 const graphql = require("graphql")
 const {
@@ -15,8 +16,9 @@ const UserType = new GraphQLObjectType({
   })
 })
 
-class MongoBase {
+class MongoAdapter extends BaseInterface {
   constructor() {
+    super()
     console.log("Mongo Adapter created")
   }
 
@@ -76,9 +78,8 @@ class MongoBase {
   }
 }
 
-const adapter = new MongoBase()
+const adapter = new MongoAdapter()
 
 module.exports = {
-  adapter,
-  MongoBase
+  adapter
 }
